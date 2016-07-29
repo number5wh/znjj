@@ -1,0 +1,73 @@
+@charset "UTF-8";
+body, div, ul, li, ol, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, textarea, p, a, img {
+  margin: 0px;
+  padding: 0px;
+  font-size: 13px; }
+
+ul {
+  list-style-type: none; }
+
+img, a img {
+  border: none; }
+
+a {
+  text-decoration: none;
+  /*去掉下划线*/ }
+
+a:hover {
+  text-decoration: underline;
+  /*放上去显示*/ }
+
+#header {
+  width: 1000px;
+  height: 100px;
+  background: lightgrey;
+  margin: auto; }
+
+#h_l {
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  margin: auto;
+  float: left; }
+
+#h_c {
+  width: 600px;
+  height: 100px;
+  font-size: larger;
+  line-height: 100px;
+  text-align: center;
+  margin: auto;
+  float: left; }
+
+#h_r {
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  margin: auto;
+  float: left; }
+
+#footer {
+  width: 1000px;
+  height: 100px;
+  margin: auto; }
+
+.f_button {
+  font-size: large;
+  line-height: 80px;
+  text-align: center;
+  width: 230px;
+  height: 80px;
+  float: left;
+  margin: 10px;
+  background: papayawhip; }
+
+#main {
+  width: 1000px;
+  height: 500px;
+  clear: both;
+  margin: auto; }
+
+/*# sourceMappingURL=app.css.map */
