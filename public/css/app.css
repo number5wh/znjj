@@ -49,6 +49,19 @@ a:hover {
   margin: auto;
   float: left; }
 
+#sub_list {
+  z-index: 100; }
+
+.sub_list {
+  text-align: center;
+  font-weight: bold;
+  width: 125px;
+  height: 25px;
+  line-height: 25px;
+  background: darkgray;
+  margin: auto;
+  color: #d6ffd6; }
+
 #footer {
   width: 1000px;
   height: 100px;
