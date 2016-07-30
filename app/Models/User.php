@@ -9,4 +9,8 @@ class User extends Model
     protected $table='user';
     public $timestamp = true;
 
+    public function FriendGroupNames(){
+        return $this->hasMany('App\Models\FriendGroup')->select('name');
+    }
+
 }

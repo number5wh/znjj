@@ -8,4 +8,8 @@ $(document).ready(function(){
     $("li.sl").mouseleave(function(){
         $(this).find("ul").slideUp();
     });
+
+    $("div.block").click(function(){
+        $(this).find("ul").slideToggle();
+    });
 });

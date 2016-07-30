@@ -18,6 +18,8 @@ Route::post('/login','IndexController@login');
 //Route::get('/checkLogin/{phone}/{password}','IndexController@checkLogin');
 
 Route::group(['prefix'=>'user'],function(){
-   Route::get('/home','UserController@home');
+    Route::get('/home','UserController@home');
     Route::get('/getFriends','UserController@getFriends');
+    Route::get('/getGroup','UserController@getGroupById');
+    Route::any('/addFriend','UserController@addFriend');
 });

@@ -6,9 +6,9 @@
     <meta name="description" content="智能家居" />
     <meta name="_token" content="{{ csrf_token() }}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="js/login.js"></script>
-    <link href="css/login2.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{url('js/jquery-3.1.0.min.js')}}"></script>
+    <script type="text/javascript" src="{{url('js/login.js')}}"></script>
+    <link href="{{url('css/login2.css')}}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <h1>智能家居<sup>V2016</sup></h1>
