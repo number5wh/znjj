@@ -14,8 +14,10 @@
 Route::get('/','IndexController@index');
 Route::post('/register','IndexController@register');
 Route::post('/login','IndexController@login');
+//Route::get('/getId/{phone}','IndexController@getId');
 //Route::get('/checkLogin/{phone}/{password}','IndexController@checkLogin');
 
 Route::group(['prefix'=>'user'],function(){
    Route::get('/home','UserController@home');
+    Route::get('/getFriends','UserController@getFriends');
 });

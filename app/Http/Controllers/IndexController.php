@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FriendGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class IndexController extends Controller
@@ -12,7 +14,7 @@ class IndexController extends Controller
 
     //设置中间件
     public function __construct(){
-        $this->middleware('web',['only'=>['login']]);
+        $this->middleware('web');
     }
 
     //登录及注册界面
@@ -44,6 +46,12 @@ class IndexController extends Controller
         $user->phone= $phone;
         $user->password = md5($password);
         $user->save();
+
+        //添加默认分组
+        $fg = new FriendGroup();
+        $fg->user_id = $this->getId($phone);
+        $fg->name = '默认';
+        $fg->save();
         echo "<script> alert('注册成功');parent.location.href='/'; </script>";
     }
 
@@ -63,8 +71,8 @@ class IndexController extends Controller
                 echo "<script> alert('密码错误！');parent.location.href='/'; </script>";
                 die;
             }else{
-                session('phone',$phone);
-                return view('welcome');
+                session(['user_id'=>$this->getId($phone),'phone'=>$phone]);
+                echo "<script>window.location.href='/user/home';</script>";
             }
         }
     }
@@ -103,5 +111,11 @@ class IndexController extends Controller
         }else{
             return true;
         }
+    }
+
+    //获取id
+    private function getId($phone){
+        $id = DB::select("select id from user where phone='{$phone}'");
+       return $id[0]->id;
     }
 }

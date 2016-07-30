@@ -4,7 +4,7 @@
   margin: auto;
 }
 .f_button{
-  font-size: large;
+
   line-height: 80px;
   text-align: center;
   width: 230px;
@@ -12,4 +12,7 @@
   float:left;
   margin: 10px;
   background: papayawhip;
+}
+.f_button a{
+  font-size: large;
 }

@@ -2,10 +2,10 @@
  * Created by root on 16-7-29.
  */
 $(document).ready(function(){
-    $("img.addImg").mouseenter(function(){
+    $("li.sl").mouseenter(function(){
         $(this).find("ul").slideDown();
     });
-    $("img.addImg").mouseleave(function(){
+    $("li.sl").mouseleave(function(){
         $(this).find("ul").slideUp();
     });
 });
