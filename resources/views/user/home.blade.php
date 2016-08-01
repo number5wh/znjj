@@ -19,10 +19,48 @@
 </ul>
 @endsection
 @section('main')
-    {{--好友添加请求--}}
+    {{--好友请求--}}
     <div>
+        @if($frphoneAdd != null)
+            <ul>
+            @foreach($frphoneAdd as $add)
+                <li class="addFriend">{{$add}}想添加你为好友
+                    <form action="/user/friendHandle" method="post">
+                        <input type="text" name="_token" value="{{csrf_token()}}" hidden="hidden"/>
+                        <input type="text" name="from" value="{{$add}}" hidden="hidden"/>
+                        <input type="text" name="to" value="{{session('user_id')}}" hidden="hidden"/>
+                        <select name="pass" id="friendHandle">
+                            <option value="-1">--请选择--</option>
+                            <option value="1">同意</option>
+                            <option value="0">拒绝</option>
+                            <option value="3">忽略</option>
+                        </select>
+                        <div class="handleAgree" style="display: none">
+                            <select name="group">
+                                @foreach($group as $v)
+                                    <option value="{{$v}}">{{$v}}</option>
+                                    @endforeach
+                            </select>
+                            <input type="submit" class="btn" value="确定">
+
+                        </div>
+                        <div class="handleDeny" style="display: none">
+                            <p>确定拒绝吗</p>
+                            <input type="submit" class="btn" value="确定">
+                        </div>
+                        <div class="handleIgnore" style="display: none">
+                            <p>确定忽略吗</p>
+                            <input type="submit" class="btn" value="确定">
+                        </div>
+                    </form>
+                </li>
+            @endforeach
+            </ul>
+            @endif
 
     </div>
+
+
 
     <?php
             //dd($data);

@@ -1,20 +1,4 @@
 /**
- * Created by root on 16-7-29.
- */
-$(document).ready(function(){
-    $("li.sl").mouseenter(function(){
-        $(this).find("ul").slideDown();
-    });
-    $("li.sl").mouseleave(function(){
-        $(this).find("ul").slideUp();
-    });
-
-    $("div.block").click(function(){
-        $(this).find("ul").slideToggle();
-    });
-});
-
-/**
  * Created by root on 16-8-1.
  */
 $(document).ready(function(){
@@ -70,5 +54,3 @@ $(function(){
 
 
 
-
-//# sourceMappingURL=all.js.map

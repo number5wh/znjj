@@ -20,6 +20,7 @@
         <div class="f_button">便捷操作</div>
         <div class="f_button">个人中心</div>
     </div>
+    <script src="{{url('js/jquery-1.7.2.min.js')}}"></script>
     <script src="{{url('js/all.js')}}"></script>
 </body>
 </html>

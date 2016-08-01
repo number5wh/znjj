@@ -12,6 +12,7 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass(['index.scss','header.scss','footer.scss','main.scss']);
-    mix.scripts(['jquery-3.1.0.min.js','addSlider.js']);
+    mix.sass('*.scss');
+    //mix.scripts(['jquery-3.1.0.min.js','addSlider.js']);
+    mix.scripts('*.js');
 });

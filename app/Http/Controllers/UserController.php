@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Friend;
 use App\Models\FriendGroup;
 use App\Models\FriendRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+//use Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -20,44 +23,85 @@ class UserController extends Controller
     //主页
     public function home(){
         //查看好友请求
-        $fromId = FriendRequest::select('from')
-            ->where('to',session('user_id'))
-            ->where('pass',2)//未处理
-            ->get();
-        foreach($fromId as $v){
-            $frphone = $this->getPhoneById($v['from']);
-        }
-        dd($frphone);
 
-
+        $frphoneAdd = $this->getRequestInfo(2);
+        $frphonePass = $this->getRequestInfo(1);
+        $frphoneDenied = $this->getRequestInfo(0);
 
 
         //获取好友列表
         $fg = $this->getFriends();
-        foreach($fg as $v){
-            $name[] = $v['name'];
-            $friends[] = $v['users'];
+//        dd($fg[0]['name']);
+
+
+        if(count($fg) ==1 && $fg[0]['users'] == null){
+            $tmp[]=$fg[0]['name'];
+            $data['name'] = $tmp;
+            $data['phones'] = null;
+        }
+        else{
+            foreach($fg as $v){
+                $name[] = $v['name'];
+                $friends[] = $v['users'];
+            }
+
+            foreach($friends as $a){
+                $friends1[] = explode(',',$a);//以,分组取出
+            }
+            foreach($friends1 as $b){
+                $friends2[] = array_filter($b);//去除最后一个null值
+            }
+
+            foreach($friends2 as $c){
+                foreach($c as $d){
+                    $phones[][] = $this->getPhoneById($d);
+                }
+            }
+
+            $data = [
+                'name'=>$name,
+                'phones'=>$phones,
+            ];
         }
 
-        foreach($friends as $a){
-            $friends1[] = explode(',',$a);//以,分组取出
-        }
-        foreach($friends1 as $b){
-            $friends2[] = array_filter($b);//去除最后一个null值
-        }
+        $group = $this->getGroupById(session('user_id'));
 
-        foreach($friends2 as $c){
-            foreach($c as $d){
-                $phones[][] = $this->getPhoneById($d);
+
+        return view('user.home',compact(['data','frphoneAdd','frphonePass','frphoneDenied','group']));
+    }
+
+    //获取好友请求信息
+    public function getRequestInfo($type){
+        if($type == 2){
+            $fromId = FriendRequest::select('from')
+                ->where('to',session('user_id'))
+                ->where('pass',2)//未处理
+                ->get()
+                ->toArray();
+//        dd($fromId);
+            if($fromId == null){
+                $frphone = null;
+            }else{
+                foreach($fromId as $v){
+                    $frphone[] = $this->getPhoneById($v['from']);
+                }
+            }
+        }else{
+            $fromId = FriendRequest::select('to')
+                ->where('from',session('user_id'))
+                ->where('pass',$type)//1通过 0未通过
+                ->get()
+                ->toArray();
+//        dd($fromId);
+            if($fromId == null){
+                $frphone = null;
+            }else{
+                foreach($fromId as $v){
+                    $frphone[] = $this->getPhoneById($v['to']);
+                }
             }
         }
-
-        $data = [
-            'name'=>$name,
-            'phones'=>$phones,
-        ];
-
-        return view('user.home',compact(['data']));
+        return $frphone;
     }
 
 
@@ -79,6 +123,103 @@ class UserController extends Controller
             $fr->group = $request->group;
             $fr->save();
             echo "<script>alert('请求已发出！');window.location.href='/user/home';</script>";
+        }
+    }
+
+    //处理好友请求
+    public function friendHandle(){
+        $data = Input::all();
+//        dd($data);
+        $pass = $data['pass'];
+        $to = $data['to'];
+        $fromPhone = $data['from'];
+        $from = $this->getIdByPhone($fromPhone);
+//        dd($from);
+        if($pass == 1){//通过请求
+            //添加到friend表
+            $friend = new Friend();
+            $friend->userid1 = $from;
+            $friend->userid2 = $to;
+            $friend->save();
+
+
+            //friend_group表的更新(添加人和被添加人)
+
+            //添加人
+            //获取添加人要添加的分组
+            $groupFrom = FriendRequest::select('group')
+                ->where('from',$from)
+                ->where('to',$to)
+                ->where('pass',2)
+                ->get()
+                ->toArray();
+//            dd($groupFrom[0]['group']);
+
+
+            //获取这组已有好友列表
+            $friendList1 = FriendGroup::select('users')
+                ->where('user_id',$from)
+                ->where('name',$groupFrom[0]['group'])
+                ->get()
+                ->toArray();
+            //再把to加上
+            $list1 = $friendList1[0]['users'].$to.",";
+            DB::table('friend_group')
+                ->where('user_id',$from)
+                ->where('name',$groupFrom[0]['group'])
+                ->update(['users'=>$list1]);
+
+
+            //被添加人
+            //获取这组已有好友列表
+            $groupTo = $data['group'];
+            $friendList2 = FriendGroup::select('users')
+                ->where('user_id',$to)
+                ->where('name',$groupTo)
+                ->get()
+                ->toArray();
+            //加上from
+            $list2 = $friendList2[0]['users'].$from.",";
+            DB::table('friend_group')
+                ->where('user_id',$to)
+                ->where('name',$groupTo)
+                ->update(['users'=>$list2]);
+
+
+
+            //friend_request表的更新
+
+            DB::table('friend_request')
+                ->where('from',$from)
+                ->where('to',$to)
+                ->update(['pass'=>$pass]);
+
+            //返回给ajax信息
+            echo "<script>alert('添加好友成功！');window.location.href='/user/home';</script>";
+//            $arr = '添加好友成功!';
+//
+//            echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+//            dd($arr);
+
+        }elseif($pass == 0){//拒绝
+            //friend_request表的更新
+
+            DB::table('friend_request')
+                ->where('from',$from)
+                ->where('to',$to)
+                ->update(['pass'=>$pass]);
+
+            echo "<script>alert('已拒绝！');window.location.href='/user/home';</script>";
+        }elseif($pass == 3){//忽略
+            //friend_request表的更新
+
+            DB::table('friend_request')
+                ->where('from',$from)
+                ->where('to',$to)
+                ->where(['pass'=>2])
+                ->delete();
+
+            echo "<script>alert('已忽略！');window.location.href='/user/home';</script>";
         }
     }
 
