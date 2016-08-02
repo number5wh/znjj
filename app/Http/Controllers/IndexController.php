@@ -71,7 +71,8 @@ class IndexController extends Controller
                 echo "<script> alert('密码错误！');parent.location.href='/'; </script>";
                 die;
             }else{
-                session(['user_id'=>$this->getId($phone),'phone'=>$phone]);
+                $is_admin = $this->getIsAdmin($this->getId($phone));
+                session(['user_id'=>$this->getId($phone),'phone'=>$phone,'is_admin'=>$is_admin]);
                 echo "<script>window.location.href='/user/home';</script>";
             }
         }
@@ -117,5 +118,11 @@ class IndexController extends Controller
     private function getId($phone){
         $id = DB::select("select id from user where phone='{$phone}'");
        return $id[0]->id;
+    }
+
+    //是否是管理员
+    private function getIsAdmin($id){
+        $isAdmin = DB::select("select is_admin from user where id=$id");
+        return $isAdmin[0]->is_admin;
     }
 }

@@ -12,4 +12,7 @@ $(document).ready(function(){
     $("div.block").click(function(){
         $(this).find("ul").slideToggle();
     });
+    $("li.eqsl").click(function(){
+        $(this).find("ul").toggle();
+    })
 });

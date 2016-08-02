@@ -13,4 +13,15 @@ class User extends Model
         return $this->hasMany('App\Models\FriendGroup')->select('name');
     }
 
+    //获取主机所有信息
+    public function Hosts(){
+        return $this->hasMany('App\Models\Host');
+    }
+
+    //获取主机id
+    public function getHostId(){
+        return $this->hasMany('App\Models\Host')->select('id');
+
+    }
+
 }

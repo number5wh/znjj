@@ -30,5 +30,8 @@ Route::group(['prefix'=>'/user'],function(){
 
 Route::group(['prefix'=>'/equipment'],function(){
     Route::get('/home','EquipmentController@home');
-
+    Route::get('/addHost1','EquipmentController@addHost1');
+    Route::post('/addHost2','EquipmentController@addHost2');
+    Route::get('/addEquip1','EquipmentController@addEquip1');
+    Route::post('/addEquip2','EquipmentController@addEquip2');
 });

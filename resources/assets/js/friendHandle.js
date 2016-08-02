@@ -45,6 +45,8 @@ $(function(){
                     alert('已拒绝');
                 }else if(data==3){
                     alert('已忽略');
+                }else{
+                    alert(data);
                 }
                 window.location.href="/user/home";
             });
