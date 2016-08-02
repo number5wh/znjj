@@ -27,3 +27,8 @@ Route::group(['prefix'=>'/user'],function(){
     Route::get('/addFriendGroup1','UserController@addFriendGroup1');
     Route::post('/addFriendGroup2','UserController@addFriendGroup2');
 });
+
+Route::group(['prefix'=>'/equipment'],function(){
+    Route::get('/home','EquipmentController@home');
+
+});

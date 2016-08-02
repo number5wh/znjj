@@ -67,7 +67,7 @@
         @if($frphonePass != null)
             <ul>
                 @foreach($frphonePass as $pass)
-                    <li class="pass"><a href="/user/handleResult/{{session('user_id')}}/{{$deny}}/1">{{$pass}}通过了你的好友请求</a></li>
+                    <li class="pass"><a href="/user/handleResult/{{session('user_id')}}/{{$pass}}/1">{{$pass}}通过了你的好友请求</a></li>
                 @endforeach
             </ul>
         @endif
