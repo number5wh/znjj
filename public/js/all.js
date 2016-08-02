@@ -1,4 +1,28 @@
 /**
+ * Created by root on 16-8-2.
+ */
+$(function(){
+    $("div input#friendGroupSubmit").click(function(){
+
+        $.post(
+            "/user/addFriendGroup2",
+        {
+            groupName:$('input[name=groupName]').val(),
+            _token:$('input[name=_token]').val(),
+            user_id:$('input[name=user_id]').val()
+        },
+            function(data){
+                if(data == 1){
+                    alert('添加分组成功');
+                    window.location.href="/user/home";
+                }
+
+            }
+        );
+    });
+
+});
+/**
  * Created by root on 16-7-29.
  */
 $(document).ready(function(){
@@ -18,7 +42,7 @@ $(document).ready(function(){
  * Created by root on 16-8-1.
  */
 $(document).ready(function(){
-    $("li form select#friendHandle").change(function(){
+    $("li select#friendHandle").change(function(){
        var value = $(this).children('option:selected').val();
         if(value == -1) {
             $(this).siblings("div.handleAgree").css('display','none');//jquery样式改变
@@ -45,29 +69,34 @@ $(document).ready(function(){
 
 $(function(){
     $("div.handleAgree input.btn").click(function(){
-        var _token = $('input[name=_token]').val();
-        var from = $('input[name=from]').val();
-        var to = $('input[name=to]').val();
-        var pass = $('input[name=pass]').val();
-        var group = $(this).siblings("select").val()== null ? null :$(this).siblings("select").val();
-        $.ajax({
-            url:"/user/friendHandle",
-            type:"post",
-            async:trues,
-            data:{
-                '_token':_token,'from':from,'to':to,'pass':pass,'group':group
+        //alert($(this).siblings("select").val()== null ? null :$(this).siblings("select").val());
+
+        $.post("/user/friendHandle",
+            {_token:$('input[name=_token]').val(),
+                from:$('input[name=from]').val(),
+                to:$('input[name=to]').val(),
+                pass:$('select[name=pass]').val(),
+                group:$(this).siblings("select").val()== null ? null :$(this).siblings("select").val()
             },
-            success:function(data) {
-                alert(data);
-                //window.location.href="/user/home";
-            }
-        });
+            function(data){
+                if(data==1){
+                    alert('已添加');
+                }else if(data==2){
+                    alert('已拒绝');
+                }else if(data==3){
+                    alert('已忽略');
+                }
+                window.location.href="/user/home";
+            });
         //return false;
     });
 
 });
-
-
+$(function(){
+    $("li.deny,li.pass").click(function(){
+        $(this).css('display','none');
+    });
+});
 
 
 

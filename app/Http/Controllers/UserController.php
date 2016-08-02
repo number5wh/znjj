@@ -7,7 +7,6 @@ use App\Models\FriendGroup;
 use App\Models\FriendRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-//use Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -26,13 +25,13 @@ class UserController extends Controller
 
         $frphoneAdd = $this->getRequestInfo(2);
         $frphonePass = $this->getRequestInfo(1);
-        $frphoneDenied = $this->getRequestInfo(0);
+        $frphoneDeny = $this->getRequestInfo(0);
 
 
         //获取好友列表
         $fg = $this->getFriends();
 //        dd($fg[0]['name']);
-
+//dd($fg);
 
         if(count($fg) ==1 && $fg[0]['users'] == null){
             $tmp[]=$fg[0]['name'];
@@ -46,15 +45,35 @@ class UserController extends Controller
             }
 
             foreach($friends as $a){
-                $friends1[] = explode(',',$a);//以,分组取出
-            }
-            foreach($friends1 as $b){
-                $friends2[] = array_filter($b);//去除最后一个null值
-            }
+                if($a != null){
+                    $friends1[] = explode(',',$a);//以,分组取出
+                }else{
+                    $friends1[] = $a;
+                }
 
+            }
+//            dd($friends1);
+            foreach($friends1 as $b){
+//                dd($b);
+                if($b!=null){
+                    $friends2[] = array_filter($b);//去除最后一个null值
+//                    dd($friends2);
+                }
+                else{
+//                    dd($b);
+                    $friends2[] = $b;
+//
+                }
+            }
+//            dd($friends2);
             foreach($friends2 as $c){
-                foreach($c as $d){
-                    $phones[][] = $this->getPhoneById($d);
+                if($c !=null){
+                    foreach($c as $d){
+                        $phones[][] = $this->getPhoneById($d);
+                    }
+                }
+                else{
+                    $phones[][]=null;
                 }
             }
 
@@ -67,7 +86,7 @@ class UserController extends Controller
         $group = $this->getGroupById(session('user_id'));
 
 
-        return view('user.home',compact(['data','frphoneAdd','frphonePass','frphoneDenied','group']));
+        return view('user.home',compact(['data','frphoneAdd','frphonePass','frphoneDeny','group']));
     }
 
     //获取好友请求信息
@@ -101,7 +120,7 @@ class UserController extends Controller
                 }
             }
         }
-        return $frphone;
+        return $frphone==null?null:$frphone;
     }
 
 
@@ -195,11 +214,7 @@ class UserController extends Controller
                 ->update(['pass'=>$pass]);
 
             //返回给ajax信息
-            echo "<script>alert('添加好友成功！');window.location.href='/user/home';</script>";
-//            $arr = '添加好友成功!';
-//
-//            echo json_encode($arr,JSON_UNESCAPED_UNICODE);
-//            dd($arr);
+            echo 1;
 
         }elseif($pass == 0){//拒绝
             //friend_request表的更新
@@ -209,7 +224,7 @@ class UserController extends Controller
                 ->where('to',$to)
                 ->update(['pass'=>$pass]);
 
-            echo "<script>alert('已拒绝！');window.location.href='/user/home';</script>";
+            echo 2;
         }elseif($pass == 3){//忽略
             //friend_request表的更新
 
@@ -219,8 +234,31 @@ class UserController extends Controller
                 ->where(['pass'=>2])
                 ->delete();
 
-            echo "<script>alert('已忽略！');window.location.href='/user/home';</script>";
+            echo 3;
         }
+    }
+
+    //好友处理反馈信息
+    public function handleResult($from,$to,$pass){
+        $toId = $this->getIdByPhone($to);
+        FriendRequest::where('from',$from)->where('to',$toId)->where('pass',$pass)->delete();
+        echo "<script>window.location.href='/user/home';</script>";
+    }
+
+
+    //添加好友分组
+    public function addFriendGroup1(){
+        return view('user.addFriendGroup');
+    }
+
+    public function addFriendGroup2(Input $input){
+        $data = $input::all();
+
+            $friendGroup = new FriendGroup();
+            $friendGroup->user_id = $data['user_id'];
+            $friendGroup->name = $data['groupName'];
+            $friendGroup->save();
+            echo 1;
     }
 
 
@@ -241,7 +279,7 @@ class UserController extends Controller
     //通过id得到手机号
     public function getPhoneById($id){
         $phone = User::select('phone')->where('id',$id)->get();
-        return $phone[0]->phone;
+        return $phone[0]->phone!=null?$phone[0]->phone:null;
     }
 
     //通过手机号得到id

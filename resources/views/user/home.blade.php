@@ -13,7 +13,7 @@
     <img src="{{url('images/header/add.jpg')}}" alt="添加" style="height: 70px;width: 70px;" class="addImg"/>
     <ul class="sub_list" style="display:none">
         <li class="sub_li"><a href="{{url('/user/addFriend')}}">添加好友</a></li>
-        <li class="sub_li"><a href="">添加分组</a></li>
+        <li class="sub_li"><a href="{{url('/user/addFriendGroup1')}}">添加分组</a></li>
     </ul>
     </li>
 </ul>
@@ -25,7 +25,6 @@
             <ul>
             @foreach($frphoneAdd as $add)
                 <li class="addFriend">{{$add}}想添加你为好友
-                    <form action="/user/friendHandle" method="post">
                         <input type="text" name="_token" value="{{csrf_token()}}" hidden="hidden"/>
                         <input type="text" name="from" value="{{$add}}" hidden="hidden"/>
                         <input type="text" name="to" value="{{session('user_id')}}" hidden="hidden"/>
@@ -52,11 +51,26 @@
                             <p>确定忽略吗</p>
                             <input type="submit" class="btn" value="确定">
                         </div>
-                    </form>
                 </li>
             @endforeach
             </ul>
             @endif
+
+        @if($frphoneDeny != null)
+            <ul>
+                @foreach($frphoneDeny as $deny)
+                    <li class="deny"><a href="/user/handleResult/{{session('user_id')}}/{{$deny}}/0">{{$deny}}拒绝了你的好友请求</a></li>
+                    @endforeach
+            </ul>
+            @endif
+
+        @if($frphonePass != null)
+            <ul>
+                @foreach($frphonePass as $pass)
+                    <li class="pass"><a href="/user/handleResult/{{session('user_id')}}/{{$deny}}/1">{{$pass}}通过了你的好友请求</a></li>
+                @endforeach
+            </ul>
+        @endif
 
     </div>
 

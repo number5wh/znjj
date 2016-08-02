@@ -19,18 +19,12 @@
     </ul>
 @endsection
 @section('main')
+    <div id="addFriendGroup">
+            <input type="text" hidden="hidden" name="_token" value="{{csrf_token()}}"/>
+            <input type="text" hidden="hidden" name="user_id" value="{{session('user_id')}}"/>
+           分组名称: <input type="text" name="groupName" placeholder="请输入分组名"/>
+            <input type="submit" value="确定" id="friendGroupSubmit"/>
 
-
-    <div class="add">
-        <form action="{{url('/user/addFriend')}}" method="post">
-            {{csrf_field()}}
-            手机号:<input type="text" name="phone" placeholder="请输入对方手机号" id="phone"/>
-            选择分组:<select name="group">
-                @foreach($groups as $group)
-                    <option value="{{$group}}">{{$group}}</option>
-                    @endforeach
-                    <input type="submit" value="添加"/>
-            </select>
-        </form>
     </div>
+
 @endsection

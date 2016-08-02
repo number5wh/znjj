@@ -22,5 +22,8 @@ Route::group(['prefix'=>'/user'],function(){
     Route::get('/getFriends','UserController@getFriends');
     Route::get('/getGroup','UserController@getGroupById');
     Route::any('/addFriend','UserController@addFriend');
-    Route::any('/friendHandle','UserController@friendHandle');
+    Route::post('/friendHandle','UserController@friendHandle');
+    Route::get('/handleResult/{from}/{to}/{pass}','UserController@handleResult');
+    Route::get('/addFriendGroup1','UserController@addFriendGroup1');
+    Route::post('/addFriendGroup2','UserController@addFriendGroup2');
 });
