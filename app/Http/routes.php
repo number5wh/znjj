@@ -33,5 +33,14 @@ Route::group(['prefix'=>'/equipment'],function(){
     Route::get('/addHost1','EquipmentController@addHost1');
     Route::post('/addHost2','EquipmentController@addHost2');
     Route::get('/addEquip1','EquipmentController@addEquip1');
-    Route::post('/addEquip2','EquipmentController@addEquip2');
+    Route::get('/addEquip2/{id}','EquipmentController@addEquip2');
+    Route::get('/deleteEquip1','EquipmentController@deleteEquip1');
+    Route::post('/deleteEquip2','EquipmentController@deleteEquip2');
+    Route::get('/ww','EquipmentController@ww');
+    Route::get('/w','EquipmentController@w');
+});
+
+Route::group(['prefix'=>'/quick'],function(){
+    Route::get('/home','QuickController@home');
+    Route::get('/groupInfo/{id}','QuickController@groupInfo');
 });

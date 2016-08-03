@@ -5,7 +5,7 @@
 
 @endsection
 @section('hc')
-    添加好友
+    添加好友分组
 @endsection
 @section('hr')
     <ul>

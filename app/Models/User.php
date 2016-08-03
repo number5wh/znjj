@@ -24,4 +24,20 @@ class User extends Model
 
     }
 
+    //获取主机id和name
+    public function getHostName(){
+        return $this->hasMany('App\Models\Host')->select('id','name');
+
+    }
+
+    //获取快捷分组
+    public function EquipmentGroup(){
+        return $this->hasMany('App\Models\EquipmentGroup');
+    }
+
+    //获取快捷分组名
+    public function EquipmentGroupName(){
+        return $this->hasMany('App\Models\EquipmentGroup')->select('id','name');
+    }
+
 }

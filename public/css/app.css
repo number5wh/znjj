@@ -1,18 +1,19 @@
-@charset "UTF-8";
-body, div, ul, li, ol, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, textarea, p, a, img {
-  margin: 0px;
-  padding: 0px;
-  font-size: 13px; }
+#footer {
+  width: 1000px;
+  height: 100px;
+  margin: auto; }
 
-ul {
-  list-style-type: none; }
+.f_button {
+  line-height: 80px;
+  text-align: center;
+  width: 230px;
+  height: 80px;
+  float: left;
+  margin: 10px;
+  background: papayawhip; }
 
-img, a img {
-  border: none; }
-
-a {
-  text-decoration: none;
-  /*去掉下划线*/ }
+.f_button a {
+  font-size: large; }
 
 #header {
   width: 1000px;
@@ -58,22 +59,21 @@ a {
   margin: auto;
   color: #d6ffd6; }
 
-#footer {
-  width: 1000px;
-  height: 100px;
-  margin: auto; }
+@charset "UTF-8";
+body, div, ul, li, ol, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, textarea, p, a, img {
+  margin: 0px;
+  padding: 0px;
+  font-size: 13px; }
 
-.f_button {
-  line-height: 80px;
-  text-align: center;
-  width: 230px;
-  height: 80px;
-  float: left;
-  margin: 10px;
-  background: papayawhip; }
+ul {
+  list-style-type: none; }
 
-.f_button a {
-  font-size: large; }
+img, a img {
+  border: none; }
+
+a {
+  text-decoration: none;
+  /*去掉下划线*/ }
 
 #main {
   width: 1000px;
@@ -87,5 +87,15 @@ a {
   line-height: 50px;
   margin: 5px 0 0 0;
   text-align: center; }
+
+div.quickGroup {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  display: block;
+  margin: 40px 110px 40px 110px;
+  text-align: center;
+  border: solid 1px;
+  float: left; }
 
 /*# sourceMappingURL=app.css.map */

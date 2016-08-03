@@ -14,5 +14,11 @@ $(document).ready(function(){
     });
     $("li.eqsl").click(function(){
         $(this).find("ul").toggle();
+    });
+    $("div.equipblock").click(function(){
+        $(this).find("ul").toggle();
+    })
+    $("b.equipGroup").click(function(){
+        $(this).next("input").next("br").next("div").toggle();
     })
 });

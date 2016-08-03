@@ -71,9 +71,27 @@ $(document).ready(function(){
     });
     $("li.eqsl").click(function(){
         $(this).find("ul").toggle();
+    });
+    $("div.equipblock").click(function(){
+        $(this).find("ul").toggle();
+    })
+    $("b.equipGroup").click(function(){
+        $(this).next("input").next("br").next("div").toggle();
     })
 });
 
+/**
+ * Created by root on 16-8-3.
+ */
+$(function(){
+    $('input.checkedAll1').click(function() {
+        if(this.checked){
+            $(this).next().next().find("[name=equip_id[]]:checkbox").attr('checked',true);
+        }else{
+            $(this).next().next().find("[name=equip_id[]]:checkbox").attr('checked',false);
+        }
+    });
+});
 /**
  * Created by root on 16-8-1.
  */
