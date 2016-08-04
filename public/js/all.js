@@ -156,4 +156,23 @@ $(function(){
 
 
 
+/**
+ * Created by root on 16-8-4.
+ */
+$(function(){
+    $("a#singleSwitch").click(function(){
+        $.post(
+            "/quick/singleSwitch",
+            {
+                _token:$(this).find("input[name=_token]").val(),
+                equip_id:$(this).find("input[name=equip_id]").val(),
+                status:$(this).find("input[name=status]").val()
+                //group_id:$(this).find("input[name=group_id]").val()
+            },
+            function(data){
+                window.location.reload();
+            }
+        );
+    });
+});
 //# sourceMappingURL=all.js.map

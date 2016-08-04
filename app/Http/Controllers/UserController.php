@@ -44,6 +44,8 @@ class UserController extends Controller
                 $friends[] = $v['users'];
             }
 
+//            dd($friends);
+
             foreach($friends as $a){
                 if($a != null){
                     $friends1[] = explode(',',$a);//以,分组取出

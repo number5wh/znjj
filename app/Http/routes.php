@@ -36,11 +36,18 @@ Route::group(['prefix'=>'/equipment'],function(){
     Route::get('/addEquip2/{id}','EquipmentController@addEquip2');
     Route::get('/deleteEquip1','EquipmentController@deleteEquip1');
     Route::post('/deleteEquip2','EquipmentController@deleteEquip2');
-    Route::get('/ww','EquipmentController@ww');
-    Route::get('/w','EquipmentController@w');
 });
 
 Route::group(['prefix'=>'/quick'],function(){
     Route::get('/home','QuickController@home');
     Route::get('/groupInfo/{id}','QuickController@groupInfo');
+    Route::get('/addGroup1','QuickController@addGroup1');
+    Route::post('/addGroup2','QuickController@addGroup2');
+    Route::get('/deleteGroup1','QuickController@deleteGroup1');
+    Route::post('/deleteGroup2','QuickController@deleteGroup2');
+    Route::get('/group/{id}/addEquip1','QuickController@addEquip1');
+    Route::get('/group/{id}/deleteEquip1','QuickController@deleteEquip1');
+    Route::post('/addEquip2','QuickController@addEquip2');
+    Route::post('/deleteEquip2','QuickController@deleteEquip2');
+    Route::post('/singleSwitch','QuickController@singleSwitch');
 });

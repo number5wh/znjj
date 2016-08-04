@@ -173,18 +173,4 @@ class EquipmentController extends Controller
         }
         echo "<script>alert('移除成功！');window.location.href='/equipment/home';</script>";
     }
-
-    public function ww(){
-//        dd(session()->all());
-//        session()->all();
-        session(['is_admin'=>1]);
-//        dd(session()->all());
-    }
-
-    public function w(){
-        dd(session()->all());
-    }
-
-
-
 }
