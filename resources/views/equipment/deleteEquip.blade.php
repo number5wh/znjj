@@ -25,7 +25,7 @@
 @endsection
 @section('main')
     <?php
-        $num = count($equip);
+        $num = $equip==null?0:count($equip);
         $hostName = array_keys($equip);?>
     <form action="/equipment/deleteEquip2" method="post">
         <input type="text" name="_token" value="{{csrf_token()}}" hidden="hidden"/>

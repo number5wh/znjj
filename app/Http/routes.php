@@ -26,6 +26,12 @@ Route::group(['prefix'=>'/user'],function(){
     Route::get('/handleResult/{from}/{to}/{pass}','UserController@handleResult');
     Route::get('/addFriendGroup1','UserController@addFriendGroup1');
     Route::post('/addFriendGroup2','UserController@addFriendGroup2');
+    Route::get('/getAuth/{phone}','UserController@getAuth');
+    Route::get('/addEquip1/{id}','UserController@addEquip1');
+    Route::post('/addEquip2','UserController@addEquip2');
+    Route::get('/deleteEquip1/{id}','UserController@deleteEquip1');
+    Route::post('/deleteEquip2','UserController@deleteEquip2');
+
 });
 
 Route::group(['prefix'=>'/equipment'],function(){
@@ -36,6 +42,9 @@ Route::group(['prefix'=>'/equipment'],function(){
     Route::get('/addEquip2/{id}','EquipmentController@addEquip2');
     Route::get('/deleteEquip1','EquipmentController@deleteEquip1');
     Route::post('/deleteEquip2','EquipmentController@deleteEquip2');
+    Route::get('/changeWatch/{type}','EquipmentController@changeWatch');
+    Route::get('/quick','EquipmentController@quick');
+    Route::get('/getDistributeEquip','EquipmentController@getDistributeEquip');
 });
 
 Route::group(['prefix'=>'/quick'],function(){
@@ -51,4 +60,5 @@ Route::group(['prefix'=>'/quick'],function(){
     Route::post('/deleteEquip2','QuickController@deleteEquip2');
     Route::post('/singleSwitch','QuickController@singleSwitch');
     Route::get('/group/{id}/allSwitch/{status}','QuickController@allSwitch');
+
 });

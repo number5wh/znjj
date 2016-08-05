@@ -80,14 +80,20 @@
             //dd($data);
         $name = $data['name'];
         $phones = $data['phones'];
-        $groups = count($name);
+        $groups = $name==null?0:count($name);
         for($i=0;$i<$groups;$i++){
-            echo "<div class='block'><a class='fg'>".$name[$i]."</a><ul class='FriendGroup' style='display:none'>";
+            echo "<b class='block'><a class='fg'>".$name[$i]."</a></b></br><ul class='FriendGroup' style='display:none'>";
             for($j=0;$j<count($phones[$i]);$j++){
-                echo "<li class='friend'>".$phones[$i][$j]."<li>";
+                if(session('is_admin') == 0){
+                    echo "<li class='friend'>".$phones[$i][$j]."<li>";
+                }elseif(session('is_admin') == 1){
+                    echo "<a href='/user/getAuth/{$phones[$i][$j]}'><li class='friend'>".$phones[$i][$j]."<li></a>";
+                }
+
                // echo $friends[$i][$j];
             }
-            echo "</ul></div>";
+            echo "</ul>";
         }
+
     ?>
     @endsection

@@ -66,15 +66,15 @@ $(document).ready(function(){
         $(this).find("ul").slideUp();
     });
 
-    $("div.block").click(function(){
-        $(this).find("ul").slideToggle();
+    $("b.block").click(function(){
+        $(this).next('br').next("ul").slideToggle();
     });
     $("li.eqsl").click(function(){
         $(this).find("ul").toggle();
     });
-    $("div.equipblock").click(function(){
-        $(this).find("ul").toggle();
-    })
+    $("b.equipblock").click(function(){
+        $(this).next('br').next("ul").slideToggle();
+    });
     $("b.equipGroup").click(function(){
         $(this).next("input").next("br").next("div").toggle();
     })

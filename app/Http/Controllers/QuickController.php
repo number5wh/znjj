@@ -29,8 +29,14 @@ class QuickController extends Controller
     public function addGroup1(){
         $eq = new EquipmentController();
         $equip = $eq->getHostEquip();
-//        dd($equip);
-        return view('quick.addGroup',compact(['equip']));
+        $equip2 = $eq->getDistributeEquip();
+//        foreach($equip as $a){
+//            foreach($a as $b){
+//                $equip2[] = $b;
+//            }
+//        }
+//        dd($equip,$equip2);
+        return view('quick.addGroup',compact(['equip','equip2']));
     }
 
     public function addGroup2(Input $input)
@@ -90,6 +96,8 @@ class QuickController extends Controller
             foreach($equip as $c){
                 $equipInfo[] = Equipment::find($c)->toArray();
             }
+
+//            dd($equipInfo);
             return view('quick.groupDetail',compact(['equipInfo','groupName','id']));
         }
     }
@@ -104,8 +112,9 @@ class QuickController extends Controller
         $equipObj = new EquipmentController();
         $equip = $equipObj->getHostEquip();
 //        dd($equip,$equipId);
+        $equip2 = $equipObj->getDistributeEquip();
 
-        return view('quick.addEquip',compact('equip','equipId','group'));
+        return view('quick.addEquip',compact('equip','equipId','group','equip2'));
     }
 
     public function addEquip2(Input $input){

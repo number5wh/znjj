@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EquipDistribute;
 use App\Models\Equipment;
+use App\Models\EquipmentGroup;
 use App\Models\Host;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,17 +24,34 @@ class EquipmentController extends Controller
 
     public function home(){
 //        dd(session()->all());
+        //主机部分
         $equip = $this->getHostEquip();
 
-        return view('equipment.home')->with('equip',$equip);
+        //被分配的部分
+        $equip2 = $this->getDistributeEquip();
+//        dd($equip);
+
+        return view('equipment.home',compact(['equip','equip2']));
     }
     //主机和设备关联信息
     public function getHostEquip(){
         $hosts = User::find(session('user_id'))->getHostName->toArray();
-//        dd($hosts);
+        //dd($hosts);
         $c=null;$equip=null;
         foreach($hosts as $host){
             $equip[$host['name']] = Host::find($host['id'])->equipmentIdNotDeleted->toArray();
+        }
+        return $equip;
+    }
+
+    //获取被分配的设备信息
+    public function getDistributeEquip(){
+        $group = EquipDistribute::where('to',session('user_id'))->select('id','from','to','equipments')->get()->toArray();
+        $equipId = array_filter(explode(',',$group[0]['equipments']));
+
+        $equip = null;
+        foreach($equipId as $a){
+            $equip[] = Equipment::find($a)->toArray();
         }
         return $equip;
     }
@@ -172,5 +191,46 @@ class EquipmentController extends Controller
             Equipment::where('id',$id)->update(['is_deleted'=>1]);
         }
         echo "<script>alert('移除成功！');window.location.href='/equipment/home';</script>";
+    }
+
+    //切换查看方式
+    public function changeWatch($type){
+        if($type == 1){
+            return EquipmentController::home();
+        }else{
+            return EquipmentController::quick();
+        }
+    }
+
+    public function quick(){
+        $equips  = null;
+        $equips = EquipmentGroup::where('user_id',session('user_id'))->get()->toArray();
+        if($equips == null){
+            echo "<script>alert('您还没有便捷分组！');window.location.href='/equipment/home';</script>";
+            die;
+        }
+        foreach($equips as $v){
+            $eid[] = array_filter(explode(',',$v['equipments']));
+        }
+//        dd($eid);
+       for($i=0;$i<count($eid);$i++){
+           for($j=0;$j<count($eid[$i]);$j++){
+               $ename[$i][] = Equipment::select('name')->where('id',$eid[$i][$j])->get()->toArray();
+           }
+       }
+//dd($ename);
+        for($k=0;$k<count($ename);$k++){
+            for($a=0;$a<count($ename[$k]);$a++){
+                $equipName[$k][] = $ename[$k][$a][0]['name'];
+            }
+        }
+//        dd($equipName);
+
+        for($i=0;$i<count($equips);$i++){
+            $equips[$i]['equip_name'] = $equipName[$i];
+            unset($equips[$i]['equipments'],$equips[$i]['created_at'],$equips[$i]['updated_at']);
+        }
+//        dd($equips);
+        return view('equipment.quick',compact('equips'));
     }
 }

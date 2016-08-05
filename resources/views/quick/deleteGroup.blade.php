@@ -10,7 +10,7 @@
 @endsection
 @section('main')
     <?php
-    $num = count($group);
+    $num = $group==null?0:count($group);
     if($num == 0){
        ?>
     <script>alert('您还没有分组！');window.location.href='/quick/addGroup1';</script>

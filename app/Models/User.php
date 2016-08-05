@@ -40,4 +40,5 @@ class User extends Model
         return $this->hasMany('App\Models\EquipmentGroup')->select('id','name');
     }
 
+
 }
