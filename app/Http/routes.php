@@ -50,4 +50,5 @@ Route::group(['prefix'=>'/quick'],function(){
     Route::post('/addEquip2','QuickController@addEquip2');
     Route::post('/deleteEquip2','QuickController@deleteEquip2');
     Route::post('/singleSwitch','QuickController@singleSwitch');
+    Route::get('/group/{id}/allSwitch/{status}','QuickController@allSwitch');
 });

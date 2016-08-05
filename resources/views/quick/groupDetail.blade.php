@@ -16,6 +16,9 @@
     </ul>
 @endsection
 @section('main')
+    <div align="center"><a href="/quick/group/{{$id}}/allSwitch/1"><button>开</button></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="/quick/group/{{$id}}/allSwitch/0"><button>关</button></a>
+    </div>
     <?php
            for($i=0;$i<count($equipInfo);$i++){
                ?>

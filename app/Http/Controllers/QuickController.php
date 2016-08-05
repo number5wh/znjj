@@ -170,7 +170,15 @@ class QuickController extends Controller
         Equipment::where('id',$equipId)
             ->update(['status'=>$status]);
         echo 1;
+    }
 
+    public function allSwitch($id,$status){
+        $e = EquipmentGroup::select('equipments')->where('id',$id)->where('user_id',session('user_id'))->get()->toArray();
+        $equip = array_filter(explode(',',$e[0]['equipments']));
+        foreach($equip as $v){
+            Equipment::where('id',$v)->update(['status'=>$status]);
+        }
+        exit ("<script>alert('操作成功！');window.location.href='/quick/groupInfo/{$id}';</script>");
     }
 
     
