@@ -32,7 +32,7 @@
     
             
 			<div class="login_form">
-				<form action="{{url('/login')}}" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
+				<form action="login" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
                     {{csrf_field()}}
                     <p id="inf"></p>
                     <input type="hidden" name="to" value="log"/>

@@ -47,6 +47,9 @@ class EquipmentController extends Controller
     //获取被分配的设备信息
     public function getDistributeEquip(){
         $group = EquipDistribute::where('to',session('user_id'))->select('id','from','to','equipments')->get()->toArray();
+        if($group == null){
+            return null;
+        }
         $equipId = array_filter(explode(',',$group[0]['equipments']));
 
         $equip = null;
